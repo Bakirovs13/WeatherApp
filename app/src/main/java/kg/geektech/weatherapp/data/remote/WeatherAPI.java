@@ -14,4 +14,5 @@ public interface WeatherAPI {
                                 @Query("appid") String appId,
                                 @Query("units") String metric
     );
+
 }

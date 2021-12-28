@@ -5,8 +5,10 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_location_on.xml" value="0.26974358974358975" />
         <entry key="app/src/main/res/drawable/layout_bg.xml" value="0.26974358974358975" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2578125" />
-        <entry key="app/src/main/res/layout/fragment_weather.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1079136690647482" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.2578125" />
+        <entry key="app/src/main/res/layout/fragment_weather.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_weather_detail.xml" value="0.2578125" />
       </map>
     </option>
   </component>

@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -21,6 +23,8 @@ import com.bumptech.glide.Glide;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+import kg.geektech.weatherapp.R;
 import kg.geektech.weatherapp.common.Resource;
 import kg.geektech.weatherapp.data.models.Main;
 import kg.geektech.weatherapp.data.models.Sys;
@@ -29,7 +33,7 @@ import kg.geektech.weatherapp.data.models.WeatherApp;
 import kg.geektech.weatherapp.data.models.Wind;
 import kg.geektech.weatherapp.databinding.FragmentWeatherBinding;
 
-
+@AndroidEntryPoint
 public class WeatherFragment extends Fragment {
 
     private WeatherApp weather;
@@ -39,6 +43,7 @@ public class WeatherFragment extends Fragment {
     FragmentWeatherBinding binding;
     private WeatherViewModel viewModel;
     private ArrayList<Weather> weatherList = new ArrayList<>();
+    private WeatherFragmentArgs args;
 
 
     @Override
@@ -46,19 +51,23 @@ public class WeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity())
                 .get(WeatherViewModel.class);
+        args = WeatherFragmentArgs.fromBundle(getArguments());
         viewModel.getWeather();
+        viewModel.getWeatherByCityName(args.getCityName());
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentWeatherBinding.inflate(inflater,container,false);
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initListeners();
         viewModel.liveData.observe(getViewLifecycleOwner(), new Observer<Resource<WeatherApp>>() {
             @Override
             public void onChanged(Resource<WeatherApp> response) {
@@ -85,6 +94,14 @@ public class WeatherFragment extends Fragment {
                     }
                 }
             }
+        });
+    }
+
+    private void initListeners() {
+        binding.rectangle.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+            navController.navigate(R.id.detailFragment);
+
         });
     }
 

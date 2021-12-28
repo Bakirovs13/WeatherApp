@@ -9,5 +9,31 @@
         android:id="@+id/weatherFragment"
         android:name="kg.geektech.weatherapp.ui.fragments.WeatherFragment"
         android:label="fragment_weather"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather">
+
+
+            <argument
+                android:name="cityName"
+                android:defaultValue="Bishkek"
+                app:argType="string"
+                app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="kg.geektech.weatherapp.ui.fragments.detailFragment.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+
+
+        <action
+            android:id="@+id/action_detailFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment">
+
+            <argument
+                android:name="cityName"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
 </navigation>
