@@ -12,23 +12,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import kg.geektech.weatherapp.R;
 import kg.geektech.weatherapp.databinding.FragmentDetailBinding;
 
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements OnMapReadyCallback {
 
     FragmentDetailBinding binding;
+    private GoogleMap mMap;
+    NavController navController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentDetailBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
@@ -36,15 +48,49 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListeners();
+        //initListeners();
+        navController = Navigation.findNavController(requireActivity(),R.id.fragment_container);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_frag);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
+
     }
 
     private void initListeners() {
-        binding.detailBtn.setOnClickListener(view -> {
-            NavController navController = Navigation.findNavController(requireActivity(),R.id.fragment_container);
+      //  binding.detailBtn.setOnClickListener(view -> {
+          //  NavController navController = Navigation.findNavController(requireActivity(),R.id.fragment_container);
           //  navController.navigate(WeatherFragmentDirections.actionWeatherFragmentToDetailFragment());
-            String name =binding.cityId.getText().toString();
-            navController.navigate(DetailFragmentDirections.actionDetailFragmentToWeatherFragment(name));
+         //   String name =binding.cityId.getText().toString();
+        //    navController.navigate(DetailFragmentDirections.actionDetailFragmentToWeatherFragment(name));
+       // });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMapClickListener(latLng -> {
+            MarkerOptions options =new MarkerOptions();
+            options.position(latLng);
+            mMap.clear();
+            mMap.addMarker(options);
+            mMap.animateCamera(
+                    CameraUpdateFactory.newCameraPosition(
+                            CameraPosition.builder()
+                            .zoom(10f)
+                                    .target(latLng)
+                            //.bearing(100)
+                           // .tilt(30f)
+                            .build()
+
+                    ));
+
+            mMap.setOnMarkerClickListener(marker -> {
+
+                navController.navigate(DetailFragmentDirections
+                        .actionDetailFragmentToWeatherFragment(String.valueOf(latLng.latitude),String.valueOf(latLng.longitude)));
+                return false;
+            });
         });
+
     }
 }

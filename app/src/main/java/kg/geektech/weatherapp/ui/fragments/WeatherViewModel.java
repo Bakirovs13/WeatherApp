@@ -26,11 +26,15 @@ public class WeatherViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public void getWeather() {
-        liveData = repository.getWeather();
-    }
+//    public void getWeather() {
+//        liveData = repository.getWeather();
+//    }
 
-    public void getWeatherByCityName(String name){
-        liveData = repository.getWeatherByCityName(name);
+//    public void getWeatherByCityName(String name){
+//        liveData = repository.getWeatherByCityName(name);
+//    }
+
+    public void getWeatherByMap(String lat,String lon){
+        liveData = repository.getMap(lat,lon);
     }
 }

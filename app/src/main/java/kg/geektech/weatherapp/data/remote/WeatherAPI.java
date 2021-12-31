@@ -10,7 +10,9 @@ public interface WeatherAPI {
 
     @GET("weather?")  //endpoint
     Call<WeatherApp> getTemp(   //Call - вовзращаемый тип , Weather - моделька
-                                @Query("q") String city,
+                                @Query("lat") String lat,
+                                @Query("lon") String lon,
+                               // @Query("q") String city,
                                 @Query("appid") String appId,
                                 @Query("units") String metric
     );

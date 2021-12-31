@@ -23,38 +23,60 @@ public class MainRepository {
         this.api = aPi;
     }
 
-    public MutableLiveData<Resource<WeatherApp>> getWeather() {
+//    public MutableLiveData<Resource<WeatherApp>> getWeather() {
+//
+//        MutableLiveData<Resource<WeatherApp>> mutableLiveData = new MutableLiveData<>();
+//        mutableLiveData.setValue(Resource.loading());
+//        api.getTemp("Bishkek", "82ed191a02db835cc3b61d5910def7b0", "metric").enqueue(new Callback<WeatherApp>() {
+//            @Override
+//            public void onResponse(@NonNull Call<WeatherApp> call, @NonNull Response<WeatherApp> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    mutableLiveData.setValue(Resource.success(response.body()));
+//                } else {
+//                    mutableLiveData.setValue(Resource.error(response.message(), null));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<WeatherApp> call, @NonNull Throwable t) {
+//                mutableLiveData.setValue(Resource.error(t.getLocalizedMessage(), null));
+//            }
+//        });
+//        return mutableLiveData;
+//    }
 
-        MutableLiveData<Resource<WeatherApp>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(Resource.loading());
-        api.getTemp("Bishkek", "82ed191a02db835cc3b61d5910def7b0", "metric").enqueue(new Callback<WeatherApp>() {
-            @Override
-            public void onResponse(@NonNull Call<WeatherApp> call, @NonNull Response<WeatherApp> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    mutableLiveData.setValue(Resource.success(response.body()));
-                } else {
-                    mutableLiveData.setValue(Resource.error(response.message(), null));
-                }
-            }
+//    public MutableLiveData<Resource<WeatherApp>> getWeatherByCityName(String name) {
+//        MutableLiveData<Resource<WeatherApp>> liveData = new MutableLiveData<>();
+//        liveData.setValue(Resource.loading());
+//        api.getTemp(name,"82ed191a02db835cc3b61d5910def7b0", "metric").enqueue(new Callback<WeatherApp>() {
+//            @Override
+//            public void onResponse(Call<WeatherApp> call, Response<WeatherApp> response) {
+//                if (response.isSuccessful()&&response.body()!= null){
+//                    liveData.setValue(Resource.success(response.body()));
+//                }else{
+//                    liveData.setValue(Resource.error(response.message(),null));
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<WeatherApp> call, Throwable t) {
+//                liveData.setValue(Resource.error(t.getLocalizedMessage(),null));
+//            }
+//        });
+//        return liveData;
+//    }
 
-            @Override
-            public void onFailure(@NonNull Call<WeatherApp> call, @NonNull Throwable t) {
-                mutableLiveData.setValue(Resource.error(t.getLocalizedMessage(), null));
-            }
-        });
-        return mutableLiveData;
-    }
 
-    public MutableLiveData<Resource<WeatherApp>> getWeatherByCityName(String name) {
+    public MutableLiveData<Resource<WeatherApp>> getMap(String lon,String lat){
+
         MutableLiveData<Resource<WeatherApp>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading());
-        api.getTemp(name,"82ed191a02db835cc3b61d5910def7b0", "metric").enqueue(new Callback<WeatherApp>() {
+        api.getTemp(lon,lat,"82ed191a02db835cc3b61d5910def7b0","metric").enqueue(new Callback<WeatherApp>() {
             @Override
             public void onResponse(Call<WeatherApp> call, Response<WeatherApp> response) {
-                if (response.isSuccessful()&&response.body()!= null){
+                if (response.isSuccessful() && response.body() !=null){
                     liveData.setValue(Resource.success(response.body()));
-                }else{
-                    liveData.setValue(Resource.error(response.message(),null));
 
                 }
             }

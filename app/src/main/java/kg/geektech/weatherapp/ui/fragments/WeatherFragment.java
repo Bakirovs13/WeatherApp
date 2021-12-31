@@ -52,8 +52,8 @@ public class WeatherFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity())
                 .get(WeatherViewModel.class);
         args = WeatherFragmentArgs.fromBundle(getArguments());
-        viewModel.getWeather();
-        viewModel.getWeatherByCityName(args.getCityName());
+       // viewModel.getWeather();
+        viewModel.getWeatherByMap(args.getLatitude(),args.getLongitude());
     }
 
     @Override
