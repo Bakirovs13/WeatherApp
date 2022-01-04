@@ -1,11 +1,19 @@
 package kg.geektech.weatherapp.DI;
 
+import android.content.Context;
+
+import androidx.room.Room;
+
 import java.util.concurrent.TimeUnit;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
+import kg.geektech.weatherapp.data.local.RoomClient;
+import kg.geektech.weatherapp.data.local.WeatherDao;
+import kg.geektech.weatherapp.data.local.WeatherDataBase;
 import kg.geektech.weatherapp.data.models.WeatherApp;
 import kg.geektech.weatherapp.data.remote.WeatherAPI;
 import kg.geektech.weatherapp.data.repository.MainRepository;
@@ -25,8 +33,8 @@ public class AppModule {
     }
 
     @Provides
-    public static MainRepository provideMainRepo(WeatherAPI aPi){
-        return new MainRepository(aPi);
+    public static MainRepository provideMainRepo(WeatherAPI aPi,WeatherDao dao){
+        return new MainRepository(aPi,dao);
     }
 
 
@@ -55,6 +63,23 @@ public class AppModule {
 
         return new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
+    }
+
+
+
+
+
+    @Provides
+    public static WeatherDataBase provideAppDatabase(@ApplicationContext Context context){
+
+        return Room.databaseBuilder(context,WeatherDataBase.class,"database")
+               .allowMainThreadQueries()
+                .build();
+
+    }
+    @Provides
+    public static WeatherDao provideWeatherDao(WeatherDataBase database){
+        return database.weatherDao();
     }
 
 

@@ -1,47 +1,64 @@
 
 package kg.geektech.weatherapp.data.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import kg.geektech.weatherapp.data.local.converter.CloudsConverter;
+import kg.geektech.weatherapp.data.local.converter.MainConverter;
+import kg.geektech.weatherapp.data.local.converter.SysConverter;
+import kg.geektech.weatherapp.data.local.converter.WeatherConverter;
+import kg.geektech.weatherapp.data.local.converter.WindConverter;
+
+@Entity  //Аннотацией Entity нам необходимо пометить объект, который мы хотим хранить в базе данных.
 public class WeatherApp {
 
-    @SerializedName("coord")
-    @Expose
-    private Coord coord;
+//    @SerializedName("coord")
+//    @Expose
+//    private Coord coord;
     @SerializedName("weather")
     @Expose
+    @TypeConverters({WeatherConverter.class})
     private List<Weather> weather = null;
     @SerializedName("base")
     @Expose
     private String base;
     @SerializedName("main")
     @Expose
+    @TypeConverters({MainConverter.class})
     private Main main;
     @SerializedName("visibility")
     @Expose
     private Integer visibility;
     @SerializedName("wind")
     @Expose
+    @TypeConverters({WindConverter.class})
     private Wind wind;
-    @SerializedName("snow")
-    @Expose
-    private Snow snow;
+//    @SerializedName("snow")
+//    @Expose
+//    private Snow snow;
     @SerializedName("clouds")
     @Expose
+    @TypeConverters({CloudsConverter.class})
     private Clouds clouds;
     @SerializedName("dt")
     @Expose
     private Integer dt;
     @SerializedName("sys")
     @Expose
+    @TypeConverters({SysConverter.class})
     private Sys sys;
     @SerializedName("timezone")
     @Expose
     private Integer timezone;
     @SerializedName("id")
     @Expose
+    @PrimaryKey //Аннотацией PrimaryKey мы помечаем поле, которое будет ключом в таблице
     private Integer id;
     @SerializedName("name")
     @Expose
@@ -50,13 +67,13 @@ public class WeatherApp {
     @Expose
     private Integer cod;
 
-    public Coord getCoord() {
-        return coord;
-    }
-
-    public void setCoord(Coord coord) {
-        this.coord = coord;
-    }
+//    public Coord getCoord() {
+//        return coord;
+//    }
+//
+//    public void setCoord(Coord coord) {
+//        this.coord = coord;
+//    }
 
     public List<Weather> getWeather() {
         return weather;
@@ -98,13 +115,13 @@ public class WeatherApp {
         this.wind = wind;
     }
 
-    public Snow getSnow() {
-        return snow;
-    }
-
-    public void setSnow(Snow snow) {
-        this.snow = snow;
-    }
+//    public Snow getSnow() {
+//        return snow;
+//    }
+//
+//    public void setSnow(Snow snow) {
+//        this.snow = snow;
+//    }
 
     public Clouds getClouds() {
         return clouds;

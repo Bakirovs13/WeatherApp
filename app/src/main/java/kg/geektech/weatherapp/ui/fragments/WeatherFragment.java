@@ -17,15 +17,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 import kg.geektech.weatherapp.R;
 import kg.geektech.weatherapp.common.Resource;
+import kg.geektech.weatherapp.data.local.WeatherDao;
 import kg.geektech.weatherapp.data.models.Main;
 import kg.geektech.weatherapp.data.models.Sys;
 import kg.geektech.weatherapp.data.models.Weather;
@@ -44,6 +48,8 @@ public class WeatherFragment extends Fragment {
     private WeatherViewModel viewModel;
     private ArrayList<Weather> weatherList = new ArrayList<>();
     private WeatherFragmentArgs args;
+    @Inject
+    WeatherDao dao;
 
 
     @Override
@@ -84,8 +90,15 @@ public class WeatherFragment extends Fragment {
                         break;
                     }
                     case ERROR:{
+
+                        Toast.makeText(requireContext(), "Internet not connected!Loading last data", Toast.LENGTH_SHORT).show();
+                        wind = dao.getWeather().getWind();
+                        main = dao.getWeather().getMain();
+                        sys = dao.getWeather().getSys();
+                        weather = dao.getWeather();
+                        weatherList = (ArrayList<Weather>) dao.getWeather().getWeather();
                         binding.progressBar.setVisibility(View.GONE);
-                        Log.e("TAG", "onChanged: "+response.message);
+                      //  Log.e("TAG", "onChanged: "+response.message);
                         break;
                     }
                     case LOADING:{
@@ -114,7 +127,13 @@ public class WeatherFragment extends Fragment {
 
         //sunset, sunrise and daytime
         binding.sunsetTv.setText(getTime(requireContext(), Long.valueOf(sys.getSunset())));
-        binding.daytimeTv.setText(getTime(requireContext(), (long) (sys.getSunset() - sys.getSunrise())));
+
+        int date = sys.getSunset()-sys.getSunrise();
+        binding.daytimeTv.setText(getTime(requireContext(), (long) date));
+
+
+        //binding.daytimeTv.setText(getTime(requireContext(), (long) (sys.getSunset() - sys.getSunrise())));
+
         binding.sunriseTv.setText(getTime(requireContext(), Long.valueOf(sys.getSunrise())));
         //wind
         binding.windTv.setText(wind.getSpeed() + " km/ h");
