@@ -21,10 +21,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import kg.geektech.weatherapp.R;
 import kg.geektech.weatherapp.databinding.FragmentDetailBinding;
 
 
+@AndroidEntryPoint
 public class DetailFragment extends Fragment implements OnMapReadyCallback {
 
     FragmentDetailBinding binding;
